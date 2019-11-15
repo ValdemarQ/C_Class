@@ -95,3 +95,21 @@ got really great results, well at least - 25%
   - Good values to use are 1, 0.5, log2, or sqrt
 
 - **Why Random Forest works so well?** With just two splits, we can pull out a single category. Tree is infinitely flexible even with a categorical variable
+
+## Machine Learning with Python - Coursera - Regression
+
+- Regression is the process of predicting a continuous value (Stock price, car CO2 emissions rate, sales etc..)
+
+- In regression, two ypes of variables, a dependent variable, and one or more independent variables. 
+    - Dependent - target we study
+    - Indendent are the causes of of dependent variable
+        - Simple Regression is when one independent variable predicts dependent
+        - Multiple Regression is when two or more variables used to predict Dependent varaibles.
+    
+    - Linear regresions is:
+        - Fast
+        -  Easy to unrderstand and interpert
+        - No need tuning
+- Traininig and Testing (Train test split.) Testing data on same dataset that was used to train is not a good idea. It's good to use Train Test split, to split data into test and train. So that testing can be done on date that model hasn't seen.
+
+    Next: Evaluation Metrics in Regression Model (https://www.coursera.org/learn/machine-learning-with-python/lecture/5SxtZ/evaluation-metrics-in-regression-models)
