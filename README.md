@@ -154,3 +154,30 @@ dtypes = types, where give only int8, int32, float32 - fewer bits to data that d
 - Analysing the grocery shop sales prediction. There is 4 years data to predict 2 weeks of sales. Probably you may want to use only more recent data, than full 4 years.
 
 - **Profiling** - %prun - is a form of program analysis that measures, for example, the space (memory) or time complexity of a program, the usage of particular instructions, or the frequency and duration of function calls. 
+
+- External data, metadata such as weather data could be a good additional extra source to tweak your model for better results.
+
+- You need a validation set, which is reliable. Usually models which perform well on validation set, achieve better results on Kaggle too. So good validation set is good meter of your model.
+
+- Jeremy most of the time uses smaller datasets, to just get a good generalization, not a perfect model, to save time on traininig.
+
+- If the standard deviation is high, that means each tree is giving us a very different estimate of this row’s prediction.
+**Standard deviation** of the predictions across the trees gives us at least relative understanding of how confident we are of this prediction. 
+    - On average, when you are predicting something that is a bigger number your standard deviation would be higher. (In example variables with least examples, had weakest confidence)
+
+- **Feature Importance** in data differs. Some features are important others are less important. 
+    - Removing unnecessary columns shouldn't make a model worse.
+
+
+**FEATURE IMPORTANCE - can be used on any ML Model**
+
+
+![Feature importance](https://miro.medium.com/max/500/1*bM9bFy4-xoEHoyciiBu95w.png)
+
+1. We have Target 
+2. We have Features
+3. We build model with feature to predict target
+4. Model spits predictions for data. We will then compare them to the actual price (in this case, we get our root mean squared error and r²). Assume r² was .89. 
+5. We take one Feature and randomly shuffly it
+6. Make predictions with shuffled data. Now r² is .80
+7. Diference from Actual and randomed is the **Feature Importance**, difference in our example is .09
