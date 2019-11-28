@@ -180,4 +180,30 @@ dtypes = types, where give only int8, int32, float32 - fewer bits to data that d
 4. Model spits predictions for data. We will then compare them to the actual price (in this case, we get our root mean squared error and r²). Assume r² was .89. 
 5. We take one Feature and randomly shuffly it
 6. Make predictions with shuffled data. Now r² is .80
-7. Diference from Actual and randomed is the **Feature Importance**, difference in our example is .09
+7. Diference from Actual and randomed is the **Feature Importance**, difference in our example is .09.
+
+
+
+## [Machine Learning with Python - Coursera - Classification](https://www.coursera.org/learn/machine-learning-with-python)
+
+
+
+
+**Classification** - categorizing or classifying some unknown items into a discrete set of classes.
+- Binary - predicts two categories. 
+- Multi-class can predict multiple 2+ categories.
+
+**Use cases:**   email filtering, speech recognition, handwriting recognition, biometric identification, document classification and much more. 
+
+**Models** used for classification: decision trees, naive bayes, linear discriminant analysis, k-nearest neighbor, logistic regression, neural networks, and support vector machines
+
+- K-Nearest Neighbours - clasifies cases based on nearest neighbours.
+    - Different calculations for KNN: Euclidian distance,
+    - We specify K value, how many neighbours should be used
+    - Low K - overfitting, High K - underfitting. We need model that generalazes well. 
+    - Choose K which achieves best accuracy on validation
+
+**Evaluation metrics in classification**: Jaccard index, F1-Score (Confussion Matrix- Shows nicely how model classified wrong and good parameters), log loss.
+![Confussion Matrix](ConfusionMatrix.png)
+
+Testing KNN in practice - classifying telecomunications customers.
