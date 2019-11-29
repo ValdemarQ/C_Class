@@ -197,7 +197,7 @@ dtypes = types, where give only int8, int32, float32 - fewer bits to data that d
 
 **Models** used for classification: decision trees, naive bayes, linear discriminant analysis, k-nearest neighbor, logistic regression, neural networks, and support vector machines
 
-- K-Nearest Neighbours - clasifies cases based on nearest neighbours.
+- **K-Nearest Neighbours** - clasifies cases based on nearest neighbours.
     - Different calculations for KNN: Euclidian distance,
     - We specify K value, how many neighbours should be used
     - Low K - overfitting, High K - underfitting. We need model that generalazes well. 
@@ -207,3 +207,25 @@ dtypes = types, where give only int8, int32, float32 - fewer bits to data that d
 ![Confussion Matrix](ConfusionMatrix.png)
 
 Testing KNN in practice - classifying telecomunications customers.
+
+**Decision Tress**
+
+Another good model for Classification. Clasifices by splitting data by feature into different leaf nodes.
+
+Example. If Person is middle-age, he sould use B. If person is younger and older, needs further questioninig.
+![Dt](dt.png)
+
+- Built simple DT model to predict which drugs to prescribe for patients
+
+**Logistic Regression**
+Anothre Classification Algorithm. Analogous to linear regression, but here it tries to predict categorical variable.
+- ***Applications:*** Predict probability of heart attack based on data, predict chance of mortality in injured patients based on data, predict likelyhood of customer to predict a purchase, likelihood of person defaulting on a mortgage etc...
+
+- Variables should be transformed to continuous/numerical
+
+![logistic](logistic.png)
+
+**Linear regression** is **not good for classification** task. Thus Logistic (Sigmoid) Regression is an alternative to linear but for classification.
+
+
+**Support Vector Machine**
