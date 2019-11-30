@@ -204,6 +204,7 @@ dtypes = types, where give only int8, int32, float32 - fewer bits to data that d
     - Choose K which achieves best accuracy on validation
 
 **Evaluation metrics in classification**: Jaccard index, F1-Score (Confussion Matrix- Shows nicely how model classified wrong and good parameters), log loss.
+
 ![Confussion Matrix](ConfusionMatrix.png)
 
 Testing KNN in practice - classifying telecomunications customers.
@@ -213,6 +214,7 @@ Testing KNN in practice - classifying telecomunications customers.
 Another good model for Classification. Clasifices by splitting data by feature into different leaf nodes.
 
 Example. If Person is middle-age, he sould use B. If person is younger and older, needs further questioninig.
+
 ![Dt](dt.png)
 
 - Built simple DT model to predict which drugs to prescribe for patients
@@ -228,4 +230,28 @@ Anothre Classification Algorithm. Analogous to linear regression, but here it tr
 **Linear regression** is **not good for classification** task. Thus Logistic (Sigmoid) Regression is an alternative to linear but for classification.
 
 
-**Support Vector Machine**
+**Support Vector Machines (SVM)**
+Can be used as a classifier to classify cases by finding a separator.
+
+![SVM](SVM.jpg)
+
+**Applications:**
+- Image recognition (Hand written digit recognition)
+- text category assignment
+- Detecting spam
+- Gene expression classification
+- Regression, outlier detection and clustering.
+
+**How it works**
+- It maps data to high-dimensional feature space
+- Kernelling: Mapping data into a higher dimensional space, in such a way that can change a linearly inseparable dataset into a linearly separable dataset.
+
+**Pros: **
+- Accurate in High dimensional spaces
+- Memory efficient
+
+**Cons:**
+- Prone to over-fitting (if features > samples)
+- No probability estimations
+- Small datasets, not very efficient computationally
+
