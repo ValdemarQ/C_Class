@@ -129,6 +129,22 @@ got really great results, well at least - 25%
     - Non-linear regression is model of non-linear relationship between the features and the target variable.
     
     - How to know if problem is linear or non-linear? **Inspect Visually**, **Check correlation coeafficient if > 0.7** - there is linear tendency.
+
+## Workshop:
+
+- Feature engineering is usually the key in winning competitions
+- ML deals exclusively with numeric values, thus data must be preprocessed before it can be used:
+
+    - One hot encoding
+    - Label encoding
+    - Buckets encoding (hashing)
+    - Embedings
+
+- ML also does not know if data is ordinal or not ordinal, thus presenting it correctly may have different outcome on the model.
+
+- Label encoding is fine for Random Forest model, but it's not good on other regresion models, because those models will assume that higher values on labels have mathematically higher significance.
+
+- Random Forrest Regression drawback, model can not predict values out of the value range that model has seen. So if you are trying to predict some prices or value that may be higher or lower than the values indicated, RF Regresson will never be able to do that.
     
 
 ## **SPRINT 3**
@@ -255,3 +271,43 @@ Can be used as a classifier to classify cases by finding a separator.
 - No probability estimations
 - Small datasets, not very efficient computationally
 
+## Workshop:
+
+**Unsupervised learning**- not so easy to define. e.g. model recognizes objects and puts them into different groups, this probably is best visualised grapically when you see differnt clusters that you can differentiate, and where you evetually give them names to these separate regions... 
+
+**Principal Component Analysis** - Unsupervsied model algorithm. When you have many data with a lot of features and little feature importance, PCA comes handy. It reduces dimensionality from hundreds or more into few. It's usefull when visualising something with many features, it's also good way of compressing some model.
+
+**ML models for unstructured data** - it turns out that it's possible to use ML models such as SVM on unstructured data, such as image recognition (written digit recognition). Although it's not very smart to use these model for such problems, as it will be inefficient.
+
+**Unbalanced datasets** - Datasets where there are different proportions of data, some data is in large quantities, whilst other important is not, which makes datasets unbalanced, this may couse problems, that model will not perform well. Thus in such cases you should not trust usual metrics and **Precision & Recall metrics** must be taken into account.
+
+-  Handy tool for Unbalanced datasets metrics = **Classification_report**, you should check Accuracy vs macro avg. Where macro avg is important metric to look at, if it's below accuracy, means your model is predicting wrongly the unbalanced sets.
+
+- Solutions for unbalanced datasets:
+
+    - Oversampling - increasing samples of minorities (Copying more of them)
+    - Undersampling - reducing samples of majorities (Deleting from data)
+
+- Interesting but for Random Forests Unbalanced datasets are not so big probolem.
+
+
+
+
+
+
+## **SPRINT 4**
+
+## [Kaggle: Intermediate Machine Learning](https://www.kaggle.com/learn/intermediate-machine-learning)
+
+**Dealing with missing values** 
+Most ML libraries (including scikit-learn) give an error if you try to build a model using data with missing values. Thus something must be done with missing values.
+
+1) **Drop Columns with Missing Values** - Unless most values in the dropped columns are missing, the model loses access to a lot of (potentially useful!) information with this approach.
+
+2) **Imputation** (Better option) - fill in the missing values with some number. For instance, we can fill in the mean value along each column.
+
+3) **An Extension To Imputation** -  imputed values may be systematically above or below their actual values, model would make better predictions by considering which values were originally missing. **Approach:** we impute the missing values, as before. And, additionally, for each column with missing entries in the original dataset, we add a new column that shows the location of the imputed entries.
+
+Sckinglearn tool **SimpleImputer**, SimpleImputer(strategy='median') can b used to impute missing data with your chosen strategy.
+
+Test exercise - model predicting prices with doropped columns on missing data nd with Imputed missing values. **Imputed model performs better on validation.**
