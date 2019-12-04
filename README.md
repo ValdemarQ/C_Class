@@ -311,3 +311,50 @@ Most ML libraries (including scikit-learn) give an error if you try to build a m
 Sckinglearn tool **SimpleImputer**, SimpleImputer(strategy='median') can b used to impute missing data with your chosen strategy.
 
 Test exercise - model predicting prices with doropped columns on missing data nd with Imputed missing values. **Imputed model performs better on validation.**
+
+
+## [ML FAST.AI - LESSON 4 — FEATURE IMPORTANCE, TREE INTERPRETER](http://course18.fast.ai/lessonsml1/lesson4.html)
+
+- **Bagging** - random forrest does produce many separate estimators where each estimators is it's possible best, but also the esimators are different from each other minimazing the correlation between themselves.
+
+
+Key basic parameteres discussed:
+
+- **min_leaf_nodes = 2** With larger parameter, we are going to get a more stable average. Each estimator would be less predictive, but the estimators would be also less correlated. So this ***might help us avoid overfitting.***
+
+- **max_features = 0.5** - indicates how many features should be taken at each splint. In this case at each split it will be using only 50% of columnts. 
+
+    - Can give us more variation and therefore it can help us to create more generalized trees that have less correlation with each other even though the individual trees probably won’t be as predictive.
+
+
+- **Feature importance** - discussed further how it's determined, good and bad ways to determine it. 
+
+    - Removing low importance features, may help slightly increase model accurecy or keep it the same, but now model is simplier.
+    - Also new feature importance on improved model may show different importance than previously. 
+
+
+- When we build RF model, he takes into numerical data and he doesn't know that data was categorical. He just sees numbers.
+
+    - **Label econding is a little inefficient and we are wasting tree computation.** So it’s going to make our tree less rich and less effective if we are not giving the data in a way that is convenient for it to do the work it needs to do. (because every time we do a split, we are halving the amount of data at least that we have to do more analysis)
+
+    - Instead, **One-hot encoding** is a good solution. It create separate columns for every different label. This encoding is neecessary for most of the models, like linear ones, as label encoding is not good. (But not all machine learning needs it)
+
+    - Suggest always to try one-hot encoding with 6-7 max for features columns and checking how model performs with One-Hot. Others can be Label encoded. 
+
+    - **Corelation Matrix - Dendogram** find which features are similar, kind of a correlation. Helps to find similar columns so they can be reduce/removed one of the similar.
+
+    ![cluster analysis](correlation.jpg)
+
+    - He checked with oob_score how models perform without specific column, and removes those few which are repetitive. 
+
+    **Partial dependence** - By removing all these externalities, it often allows us to see the truth much more clearly. Introduced to Partial Dependec Plot (PDP)
+
+    ![pdp](pdp.jpg)
+    Purpose of PDP interpretation is to learn about a dataset and so why do you want to learn about a dataset? Simply to understand how things are related to each other.
+
+
+**Tree Interpreter** - To look at how the model makes prediction for an individual row.
+
+- Super important in real life
+- Not very important in Kaggle
+
