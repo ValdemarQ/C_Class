@@ -358,3 +358,94 @@ Key basic parameteres discussed:
 - Super important in real life
 - Not very important in Kaggle
 
+## [Machine Learning with Python - Coursera - Clustering](https://www.coursera.org/learn/machine-learning-with-python)
+
+- **Unsupervised** task, where datset is segmented into number of groups based on data similarities.
+
+- Clustering means finding clusters in a dataset, unsupervised.
+
+- A cluster is a group of data points or objects in a dataset that are similar to other objects in the group, and dissimilar to datapoints in other clusters.
+
+- **Clustering vs Classification**
+
+    - Clasification is a supervised learning where each training data instance belongs to a particular class. Data is labeled.
+
+
+    - Clustering, data is unlabeled and the process is unsupervised. E.g, use a clustering algorithm such as k-means to group similar customers as mentioned, and assign them to a cluster, based on whether they share similar attributes, such as; age, education, and so on. 
+
+**Applications:**
+- Identify buying patters of customers
+- Recommend new books or movies to new customers
+- Fraud detection in credit card use
+- Identify clustes of customers (e.g. loyal)
+- Auto-categorize news based on content
+- Recommend similar news articles (Tag artciles)
+- Cluster genes with similar expresion patters
+- based on genes identify family ties
+
+**Why?** clustering can be used for one of the following purposes:
+-  exploratory data analysis, 
+- summary generation or reducing the scale
+- outlier detection- especially to be used for fraud detection or noise removal, 
+- finding duplicates and datasets
+- as a pre-processing step for either prediction, 
+- other data mining tasks or as part of a complex system
+
+**Clustering Algorithms**
+- Paritioned-based clusterings (K-means, k-median, Fuzzy c-means)
+- Hierarchical Clustering (Produces tress of clusters)
+- Density-based clustering (produces arbitrary shaped clusters)
+
+![cla](cla.jpg)
+
+
+## **K-Means**
+
+An **unsupervised** algorithm, groups data only based on the similarity to each other.
+![kmeans](kmeans.jpg)
+
+Logic: K-Means tries to minimize the intra-cluster distances and maximize the inter-cluster distances.
+![kmeansalgorithm](kmeansa.jpg)
+
+Exist various different distance measures: Euclidean distance, Cosine similarity, Average distance, and so on.
+
+**We must initialize k**=3, indicating how much clusters we expect to receive from a model.
+
+**Chosing K, Elbow method** where the rate of decrease sharply shifts. It is the right K for clustering. 
+![elbow](elbow.jpg)
+
+
+## **Hierarchical Clustering**
+Types:
+- Devisive, so you start with all observations in a large cluster and break it down into smaller pieces 
+
+- **Agglomerative** (mostpopular among DS), it is bottom up, where each observation starts in its own cluster and pairs of clusters are merged together as they move up the hierarchy.
+
+![dendrogram](dendrogram.jpg)
+
+Metrics possibilities:
+![clusteringmetrics](clusteringmetrics.jpg)
+
+Advantages vs disadvantages:
+![advantages vs disadvantages](advvsdsd.jpg)
+
+Kmeans vs Hierarchical:
+![kmeans vs hierarchical](kmsvsh.jpg)
+
+
+
+## **DBSCAN Clustering**
+A density-based clustering algorithm which is appropriate to use when examining spatial data
+
+Traditional clustering techniques such as K-Means, hierarchical when applied to tasks with arbitrary shaped clusters or clusters within clusters, might not be able to achieve good results, elements in the same cluster might not share enough similarity or the performance may be poor
+
+![traditional model problems](traditionalproblems.jpg)
+
+**K-means model for instance assignes**0 all points to cluster, **even outliers**, whilst Density based locates clusters and separates outliers.
+
+![flaws](flaws.jpg)
+
+**Density-Based Spatial Clustering of Applications with Noise (DBSCAN)**
+- Wonderful attributes of the DBSCAN algorithm is that it can find out any arbitrary shaped cluster without getting effected by noise.
+![DBSCAN](DBSCAN.jpg)
+
