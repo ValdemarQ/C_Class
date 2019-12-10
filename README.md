@@ -449,3 +449,92 @@ Traditional clustering techniques such as K-Means, hierarchical when applied to 
 - Wonderful attributes of the DBSCAN algorithm is that it can find out any arbitrary shaped cluster without getting effected by noise.
 ![DBSCAN](DBSCAN.jpg)
 
+## **SPRINT 5**
+
+## [Kaggle: Intermediate Machine Learning - Categorical variables  ](https://www.kaggle.com/learn/intermediate-machine-learning) 
+
+**Categorical variables** - are usuelly strings, with some value. For instance Gender, Education, Occupation etc. 
+
+Approaches to deal with Categorical data:
+
+1. **Drop Categorical Variables** easiest approach, it work well if the columns did not contain useful information.
+
+2. **Label Encoding**
+![label](label.png)
+
+This approach assumes an ordering of the categories: "Never" (0) < "Rarely" (1) < "Most days" (2) < "Every day" (3). 
+
+Not all categorical variables have a clear ordering in the values, but we refer to those that do as ordinal variables. Tree-based models (like DT and RF), you can expect label encoding to work well with ordinal variables, whilst **other models won't work well in label encoding.**
+
+3. **One-Hot Encoding**
+One-hot encoding creates new columns indicating the presence (or absence) of each possible value in the original data. To understand this, we'll work through an example.
+![onehotencoding](onehot.png)
+
+
+**One-hot encoding does not assume an ordering of the categories**. Thus, you can expect this approach to work particularly well if there is no clear ordering in the categorical data (e.g., "Red" is neither more nor less than "Yellow"). We refer to categorical variables without an intrinsic ranking as **nominal variables**.
+
+One-hot encoding generally **does not perform well if the categorical variable takes on a large number of values** (i.e., you generally won't use it for variables taking more than 15 different values).
+
+
+## [ML FAST.AI - LESSON 5 — EXTRAPOLATION AND RF FROM SCRATCH](http://course18.fast.ai/lessonsml1/lesson5.html)
+
+In machine learning, the thing we care about is the generalization accuracy or the generalization error. **Generalization** is the key unique piece of machine learning. 
+
+### **What if model doesn’t generalize well?**
+1. We generally do is we **put aside** a second dataset (**validation set**). 
+2. Then  we **train a model** & **check it against the validation** to see if it generalizes, do that a few times. 
+3. Then when we finally got something we think will generalize successfully based on the validation set (at the end of the project), we **check it against the test set**.
+
+In Random Forest, OOB can be used insted of Validation set. But it is less good:
+
+-  **Because every row is going to be using a subset of the trees to make its prediction, and with less trees, we know we get a less accurate prediction.**
+
+### **Why might I not be able to use a random sample from my validation or possibly fail?**
+
+By using a random validation set, we could get totally the wrong idea about our model. important thing to remember is when you build a model, you always have a **systematic error** which is that **you’re going to use the model at a later time than the time you built it**.
+
+You’re using **data which is older than today anyway**. So there’s some lag between the data that you are building it on and the data that it’s going to actually be used on in real life. And a lot of the time, if not most of the time, that matters.
+
+So what we want to do in practice, anytime there is some temporal piece is to instead say assuming that we’ve ordered it by time, we’ll use the latest portion as our validation set. I suppose, actually do it properly:
+
+![inpractice](inpractice.png)
+
+- Train on oldest data
+- Validate on newest data
+- Test even on newer data
+
+As our goal is to predict things that will happen in future.
+
+**OOB,** a really good reason to have OOB. If it looks good on the OOB then it means you are not **overfitting in a statistical sense.** 
+
+Suggest making multiple models and check validations, checking them against accuracy on test. 
+
+In real life making/keeping **correct test set is The most important thing**. Because if you failed to build a model which generalizes properly, your test dataset will show it. But if you failed to have good test set, you are going to build wrong model and if deployed in production can be demaging.
+
+## sklearn **train_test_split**, **cross-validation** 
+- Fact that these things **always give you random samples** tells you that much if not **most of the time, you shouldn’t be using them.**
+- Fact that random forest gives you an OOB for free, it’s useful but only tells you that this generalizes in a statistical sense, not in a practical sense
+
+
+
+### **Cross validation** 
+Pulls out five validation sets, for example. So let’s assume that we’re going to randomly shuffle the data first of all. This is critical.
+
+1. Randomly shuffle the data.
+2. Split it into five groups
+3. For model №1, we will call the first one the validation set, and the bottom four the training set.
+4. We will train and we will check against the validation and we get some RMSE, R², etc.
+5. We will repeat that five times, and we will take the average of RMSE, R², etc, and that is a cross-validation average accuracy.
+
+### Pros:
+
+You can **use all of the data**. You don’t have to put anything aside. And you get a little benefit as well in that you’ve now got five models that you could ensemble together, each one used 80% of the data. So sometimes that ensemble can be helpful.
+
+### Cons:
+1. Slow / Takes more time. We have to fit five models rather than one, so time is a key downside. If we are doing deep learning and it takes a day to run, suddenly it takes five days or we need 5 GPUs.
+
+2. It uses random validation sets, are a problem are entirely relevant here. If your model may not be appriate to use random set, then Cross-Validation is not good for you. 
+
+Most of the time in real world you may not need cross-validation (Just sometimes.) It's easy, interesting, but not that often that may be important in your toolbox, maybe just sometimes.
+
+49:33 (to continue)
