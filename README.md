@@ -537,4 +537,32 @@ You can **use all of the data**. You don’t have to put anything aside. And you
 
 Most of the time in real world you may not need cross-validation (Just sometimes.) It's easy, interesting, but not that often that may be important in your toolbox, maybe just sometimes.
 
-49:33 (to continue)
+
+**Extrapolation problem of RF**.
+Linear model can find a relationship between time and price, and predict something in the future. But **random forest can’t do that**.
+
+- One simple way is just to try to **avoid using time variables as predictors** if there’s **something else** we could use that’s going to give us a better or stronger relationship that’s actually going to work in the future
+
+if I understand the difference between our validation set and our training set, then that tells me what are the predictors which have a **strong temporal component** and therefore they may be irrelevant by the time I get to the future time period.
+
+## Do you have random test set? 
+
+In Kaggle you don't know if test set is random or not. Trick to find out:
+
+1. Put test set and training set together
+2. Create a new column called is_test 
+3. If you can, you don’t have a random sample which means you have to figure out how to create a validation set from it.
+
+```
+m = RandomForestClassifier(n_estimators=40, min_samples_leaf=3, max_features=0.5, n_jobs=-1, oob_score=True)
+m.fit(x, y);
+m.oob_score_
+0.99998753505765037
+```
+Test set is not random, because my validation set can be predicted with a .9999 R².
+
+- So drop time related features, which can be dropped, and keep the rest so model predicts better on features that are not time dependent.
+
+## Writing Random Forest from scratch! 
+
+Basic explanation and building models from scratch our selfs using Pythons OOP. OOP is super handy for Data Scientists, since librariers like Pytorch are entirely built with OOP.
