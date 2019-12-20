@@ -566,3 +566,113 @@ Test set is not random, because my validation set can be predicted with a .9999 
 ## Writing Random Forest from scratch! 
 
 Basic explanation and building models from scratch our selfs using Pythons OOP. OOP is super handy for Data Scientists, since librariers like Pytorch are entirely built with OOP.
+
+## [Machine Learning with Python - Coursera - Recommender Systems](https://www.coursera.org/learn/machine-learning-with-python)
+
+Intro to Recommendation systems
+![Recommend](Recommend.jpg)
+
+![radvantages](radvantages.jpg)
+
+![types](types.jpg)
+
+Content-based: Recommends things on user preferenaces, based on things he had done in the pats, things he interacted with, rated, or liked.
+
+![contentbased](contentbased.jpg)
+
+Collaborative Filtering - relations exist between products and people, so that other people choices, who are similar to you, will affect your recommendations too, as well as your items too, like content based recommendations.
+![challenges](challenges.jpg)
+
+![rstystems](rsystems.jpg)
+
+## Workshop notes:
+
+- Use dendograms to see feature correlations, to remove some features which show exactly the same things.
+
+- Always good to have multiple models, so you can evaluate and choose one which performs best on your data.
+
+- If data is temporal, it means that test_train_split must take latest data for test, and the oldest data for traininig purposes, because goals is usually to predict future.
+
+
+## **SPRINT 6**
+
+## [Kaggle: Intermediate Machine Learning - Pipelines](https://www.kaggle.com/learn/intermediate-machine-learning) 
+
+**Pipelines** are a simple way to keep your data preprocessing and modeling code organized.
+Benefits:
+
+1. **Cleaner Code**: Accounting for data at each step of preprocessing can get messy. With a pipeline, you won't need to manually keep track of your training and validation data at each step.
+2. **Fewer Bugs**: There are fewer opportunities to misapply a step or forget a preprocessing step.
+3. **Easier to Productionize**: It can be surprisingly hard to transition a model from a prototype to something deployable at scale. We won't go into the many related concerns here, but pipelines can help.
+4. **More Options for Model Validation:** You will see an example in the next tutorial, which covers cross-validation.
+
+
+You can use it in simple steps:
+
+- ## **Step 1:** Define Preprocessing Steps
+```
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import OneHotEncoder
+
+# "Cardinality" means the number of unique values in a column
+# Select categorical columns with relatively low cardinality (convenient but arbitrary)
+categorical_cols = [cname for cname in X_train_full.columns if
+                    X_train_full[cname].nunique() < 10 and 
+                    X_train_full[cname].dtype == "object"]
+
+# Select numerical columns
+numerical_cols = [cname for cname in X_train_full.columns if 
+                X_train_full[cname].dtype in ['int64', 'float64']]
+
+
+# Preprocessing for numerical data
+numerical_transformer = SimpleImputer(strategy='constant')
+
+# Preprocessing for categorical data
+categorical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='most_frequent')),
+    ('onehot', OneHotEncoder(handle_unknown='ignore'))
+])
+
+# Bundle preprocessing for numerical and categorical data
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', numerical_transformer, numerical_cols),
+        ('cat', categorical_transformer, categorical_cols)
+    ])
+```
+
+- ## **Step 2:** Define the Model
+```
+from sklearn.ensemble import RandomForestRegressor
+
+model = RandomForestRegressor(n_estimators=100, random_state=0)
+```
+
+- ## **Step 3:** Create and Evaluate the Pipeline
+
+```
+from sklearn.metrics import mean_absolute_error
+
+# Bundle preprocessing and modeling code in a pipeline
+my_pipeline = Pipeline(steps=[('preprocessor', preprocessor),
+                              ('model', model)
+                             ])
+
+# Preprocessing of training data, fit model 
+my_pipeline.fit(X_train, y_train)
+
+# Preprocessing of validation data, get predictions
+preds = my_pipeline.predict(X_valid)
+
+# Evaluate the model
+score = mean_absolute_error(y_valid, preds)
+print('MAE:', score)
+```
+- Data can also be Normalised, Scaled more easily with Pipelines.
+- Reduces workload of preprocessing as things are done more simply
+- Super easy to scale and normalize
+- Handy for multiple model selection and more!
+- Handy arcticle on Pipeline in practice (https://medium.com/vickdata/a-simple-guide-to-scikit-learn-pipelines-4ac0d974bdcf)
