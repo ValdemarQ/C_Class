@@ -676,3 +676,19 @@ print('MAE:', score)
 - Super easy to scale and normalize
 - Handy for multiple model selection and more!
 - Handy arcticle on Pipeline in practice (https://medium.com/vickdata/a-simple-guide-to-scikit-learn-pipelines-4ac0d974bdcf)
+
+
+## **SPRINT 7**
+
+Fast.ai ML course. Building RF from scratch etc...some good thoughts, like validation set must make sense, minimu 22 examples per class.
+
+- Told about paper which tried many variations and showed that duplicating smalest sample class works best. That is if you have unbalanced data and little examples of some data, for model to perform well and generalize well it's adviced to duplicate/multiplicate the same instances of existing smaller groups samples.
+
+- Scatter plot - trick to see better how crowded is data is to use alpha. In this case it will need 20 dots to be in one spot for it to be entirely blue, so you can see more clearly the distributtion.
+
+```
+plt.scatter(preds, y_valid, alpha=0.05)
+```
+
+- Cython - can elp optimize performance, runs some python code quicker than original python? Why? 
+Python uses python interpreter, whilsy cython just convers your code to c and then executes it, thus making it quicker. (Performance optimization, quicker to do)
