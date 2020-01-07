@@ -678,6 +678,31 @@ print('MAE:', score)
 - Handy arcticle on Pipeline in practice (https://medium.com/vickdata/a-simple-guide-to-scikit-learn-pipelines-4ac0d974bdcf)
 
 
+## Workshop notes:
+
+* **Gradieng Boosting Maching (GBM)** > Random Forest. 
+GBM is usually delivers better results, but requires parameter tuninig.
+
+* **ML vs DL.** Usually for structured we use ML, we can use DL but it will require more resources, more cpu, it will be hardder to do it and may not bring so much better results. Thus stick with ML for structured data and DL for unstructured data (Images, Video, Audio, texts etc...) 
+
+* If data is mix of strcutured and unstructured data - you should use Deep Learninig.
+
+* **How to encode when you have many culmns, with many unique values?** if you are using RF label encoding is fine. But for most cases when you are using regression models etc, One hot encoding is best option. Sometime when you have many columns, one-hot encoding is still the option.
+    * There are Embedding encoding (Used in Deep learninig)
+    * Hashing (Used in Deep learninig) - for super cardinal data
+
+* Random Forests dont care about Normalisation and Scaling. But normalization shouldnt make model worse, so it's always good to do it. 
+* Other models do care about Normalisation and Scaling (Hence if you plan to test various other models, you will need to do that)
+* Target and Features must be also scaled
+* Categorical features - are dont need scaling
+* When target is numeric, use scaling
+
+* **Pipelines** - always use pipelines in your projects/models. Some tools may note be compatible with Pipelines.
+
+* **Alternative good models:** Lightbm, catboost.
+
+
+
 ## **SPRINT 7**
 
 Fast.ai ML course. Building RF from scratch etc...some good thoughts, like validation set must make sense, minimu 22 examples per class.
