@@ -717,3 +717,121 @@ plt.scatter(preds, y_valid, alpha=0.05)
 
 - Cython - can elp optimize performance, runs some python code quicker than original python? Why? 
 Python uses python interpreter, whilsy cython just convers your code to c and then executes it, thus making it quicker. (Performance optimization, quicker to do)
+
+
+## [Kaggle: Intermediate Machine Learning - Cross-Validation](https://www.kaggle.com/learn/intermediate-machine-learning) 
+
+## What is cross-validation?
+
+In cross-validation, we run our modeling process on different subsets of the data to get multiple measures of model quality.
+
+Popular method,it is simple to understand, it generally results in a less biased or less optimistic estimate of the model skill than other methods, such as a simple train/test split.
+
+
+We take 1st fold as validation and run it multiple times agains every traininig. We get different results for each fold and then we get an average for all folds.
+![k-folds CV](k-folds.png)
+
+K-folds: we can set any number of K we think is good. 
+
+Cross-validation yields a much better measure of model quality, with the added benefit of cleaning up our code: note that we no longer need to keep track of separate training and validation sets. So, especially for small datasets, it's a good improvement!
+
+**Note** CV may note be good when data is time dependent, because due to randomness of choosing validation and traininig sets.
+
+**Use CV with pipelines** While it's possible to do cross-validation without pipelines, it is quite difficult! Using a pipeline will make the code remarkably straightforward.
+
+Built simple CV model:
+
+```
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.model_selection import cross_val_score
+
+my_pipeline = Pipeline(steps=[
+    ('preprocessor', SimpleImputer()),
+    ('model', RandomForestRegressor(n_estimators=50, random_state=0))
+])
+
+
+# Multiply by -1 since sklearn calculates *negative* MAE
+scores = -1 * cross_val_score(my_pipeline, X, y,
+                              cv=5,
+                              scoring='neg_mean_absolute_error')
+
+print(Average MAE score:", scores.mean())
+
+
+Looking for best number of estimators to find lowest MAE
+n_estimators  = [50,100,150,200,250,300,350,400]
+
+results =  {}
+
+for i in n_estimators:
+    results[i] = get_score(i)
+
+
+plt.plot(results.keys(), results.values())
+plt.show() 
+```
+**200 n_estimetors returns lowest MAE:**
+
+![k-folds2](k-folds2.png)
+
+
+
+## [XGBOOST](https://www.kaggle.com/alexisbcook/xgboost)
+
+XGBoost stands for extreme gradient boosting, which is an implementation of gradient boosting with several additional features focused on performance and speed. (Scikit-learn has another version of gradient boosting, but XGBoost has some technical advantages.)
+
+```
+from xgboost import XGBRegressor
+
+my_model = XGBRegressor()
+my_model.fit(X_train, y_train)
+```
+
+**Parameter Tuning**
+
+**``` n_estimators ```** specifies how many times to go through the modeling cycle described above. It is equal to the number of models that we include in the ensemble
+
+* Too low a value causes underfitting
+* Too high a value causes overfitting
+
+Typical values range from 100-1000, though this depends a lot on the learning_rate parameter discussed below.
+
+**```early_stopping_rounds```** offers a way to automatically find the ideal value for n_estimators. Early stopping causes the model to stop iterating when the validation score stops improving
+
+Setting ```early_stopping_rounds```=5 is a reasonable choice. In this case, we stop after 5 straight rounds of deteriorating validation scores.
+
+When using ``early_stopping_rounds``, you also need to set aside some data for calculating the validation scores - this is done by setting the eval_set parameter.
+
+```
+my_model = XGBRegressor(n_estimators=500)
+my_model.fit(X_train, y_train, 
+             early_stopping_rounds=5, 
+             eval_set=[(X_valid, y_valid)],
+             verbose=False)
+```
+**```learning rate```** is intended to slow down the adaptation of the model to the training data.
+
+
+## Test exercices
+Built simple XGBOOST model
+```
+# Define the model
+my_model_2 = XGBRegressor(random_state=0,n_estimators=500, learninig_rate=0.05) # Your code here
+
+# Fit the model
+my_model_2.fit(X_train,y_train) # Your code here
+
+# Get predictions
+predictions_2 = my_model_2.predict(X_valid) # Your code here
+
+# Calculate MAE
+mae_2 = mean_absolute_error(predictions_2,y_valid) # Your code here
+
+# print MAE
+print("Mean Absolute Error:" , mae_2)
+```
+
+Example how to evalute learninig rate values: https://machinelearningmastery.com/tune-learning-rate-for-gradient-boosting-with-xgboost-in-python/
