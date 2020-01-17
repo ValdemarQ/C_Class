@@ -835,3 +835,162 @@ print("Mean Absolute Error:" , mae_2)
 ```
 
 Example how to evalute learninig rate values: https://machinelearningmastery.com/tune-learning-rate-for-gradient-boosting-with-xgboost-in-python/
+
+## Workshop notes
+
+XGboost - good library, many kaggle are won with this model for structured/tabluar data. Though our teacher is not using this model so he can't comment much on it. In most cases he usese RF.
+
+So look for more info on Xgboost, what types of encodings are needed, what is learninig rate?
+
+Question was asked about NLP (Neural Language processing) - It's a Deep learninig. But for some smaller problems like Spam detection Naive Bayes (Scikit learn) model can be used. But if there is more serious problem with more clases, then you should be considering to use Deep learning.
+
+**Cross Validation** is always better than train test split, if your data is not time series dependent.
+
+
+**How Cross Validation works?**
+Model simply takes number of cuts of your data, for example 5 chunks. And runs them 5 times, by taking every chunk as validation and others as traininig. And returns average. 
+
+![cross val](
+    CrossValidation.jpg)
+
+**Cons**
+* Slow to run, because runs model multiple of times, just for different data, thus on large dataset or many models, will take quite a lot of time.
+* Not good on time series data if improtant to predict something in future, as it randomly samples. Whilst predicting future values may be a important.
+
+
+**Tips on preparing models for production:**
+* Use full dataset for traininig with your preselected hyper parameters and features, you tested on.
+* You may have no metrics, but that's normal given you used all of the data to train production ready model. Use some new incoming samples, A/B testing to see results.
+
+**UNBALANCED DATA (Once again)**
+
+***What is an Imbalanced Dataset?***
+Imagine, you have two categories in your dataset to predict — Category-A and Category-B. When Category-A is higher than Category-B or vice versa, you have a problem of imbalanced dataset.
+
+
+What to do when dataset is unbalanced?
+
+***Methods to deal with Unbalanced Dataset:***
+* Oversampling (Duplicate minority clases to make more of them)
+* Undersampling/NearMiss (Reduce quantities of large set of class )
+![oversampling-undersampling](oversampling-undersampling.png)
+* SMOTE (Synthetic Minority Over-sampling Technique) What it does is, it creates synthetic (not duplicate) samples of the minority class. Hence making the minority class equal to the majority class. SMOTE does this by selecting similar records and altering that record one column at a time by a random amount within the difference to the neighbouring records.
+
+
+## **SPRINT 8**
+
+## [Data Leakage](https://www.kaggle.com/alexisbcook/data-leakage)
+
+Data leakage happens when your training data contains information about the target, but similar data will not be available when the model is used for prediction. This leads to high performance on the training set (and possibly even the validation data), but the model will perform poorly in production.
+
+ Careful separation of training and validation data can prevent train-test contamination, and pipelines can help implement this separation. Likewise, a combination of caution, common sense, and data exploration can help identify target leakage
+
+## [Fast.ai - Neural Networks - GRADIENT DESCENT AND LOGISTIC REGRESSION](http://course18.fast.ai/lessonsml1/lesson8.html)
+
+Random Forests is great, but it has it's limitations. There are some situations, were RF will not perform as well.  
+
+This is due to :
+
+* high cardinality
+* time series
+* can’t handle spatial information
+
+
+### **Neural Nets**
+Class of algorithms that support the [**Universal Approximation Theoreom**.](http://neuralnetworksanddeeplearning.com/chap4.html)
+
+Basically we approximate any function with a multi-layered set of functions ( a net of functions) as long as we make the network big enough.
+
+One of the most striking facts about neural networks is that they **can compute any function at all.**
+
+No matter what the function, there is guaranteed to be a neural network so that for every possible input, (x) (or some close approximation) is output from the network. This result holds even if the function has many inputs.
+
+![Neural Nets](nn.png)
+
+* This result tells us that neural networks have a kind of **universality**. 
+
+* No matter what function we want to compute, we know that there is a neural network which can do the job.
+
+**To sum up:** universality tells us that neural networks can compute any function; and empirical evidence suggests that deep networks are the networks best adapted to learn the functions useful in solving many real-world problems
+
+What about recognizing digits?
+![digits](digits.gif)
+
+## Intro to Language of Neural Networks.
+There are lots of names for basically the same thing in deep learning
+
+Most ML behave better when data is normalized (Mean = 0, std is 1)
+* For DL we need to nromalized data
+
+
+
+**Vocab**
+```
+[1,2] == "vector" == "1-D array" == "rank 1 tensor"
+
+[ [0,0],
+  [1,1] ] == “matrix” == “2-D array” == “rank 2 tensor”
+
+[
+[ [0,0],
+  [0,0] ],
+[ [1,1],
+  [1,1] ] ] Cube == “tensor” == “3-D array” == “rank 3 tensor”
+```
+
+## Thins you need to know about images:
+
+You need to know there’s a number value behind every pixel. 
+* Every image has 28 pixel rows and 28 pixel columns **(28*28)** and 
+* every pixel has a color **value between 0-255** (the range of from white to black. 
+* If these were color images there would be three 0-255 values for each pictures representing a gradient of **Red, Blue and Green**)
+
+![image](imageinfo.png)
+
+## Does normalization matter for deep learning ?
+
+Yes, because we are making a parameterized model.
+
+## Neural Networks with Pytorch
+
+Graphical processing units (GPUs) allow for matrix computations to be done with much greater speed, as long as you have a library such as PyTorch that takes advantage of them. 
+
+Pytorch - Library that allows to run code on GPU rather than CPU with Deep Learninig/NN. (But for that we need Nvidia GPU) if not available use Cloud computing. (AWS)
+
+
+
+
+## Let’s build a Neural Net with PyTorch
+
+Simplest Neural Network model is Sequential. 
+
+``.cuda()`` - makes code run on GPU rather than CPU
+
+The part of the Pytorch library that does the neural net work is called torch. So we’ll import that.
+```
+import torch.nn as nn
+```
+PyTorch gives you a “blank” neural net container that you customize with add-ins().
+
+Calling ``nn.Sequential()`` is like ordering a car shell with wheels.
+
+
+## Training the model
+``.fit()`` is the function that trains the model with your image data. You’re “fitting” the model to your training data.
+
+Let’s break down the parameters for this function 
+```
+fit(net, md , epochs=1, crit=loss, opt=opt, metrics=metrics)
+```
+
+``net ``= your neural net model
+
+``md`` = (aka model_data object) the data being analyzed
+
+``epochs`` = number of times the net goes over the image, here it’s only once
+
+``crit`` = the loss function of your choice
+
+``opt`` = the optimizer of your choice : here’ we’re using the Adam optimizer with optic.Adam.(net.parameters())
+
+``metrics`` = the type of metrics you want to print out/ display, here we’re using with [accuracy]

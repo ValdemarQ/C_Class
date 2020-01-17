@@ -1,0 +1,131 @@
+[33mcommit 6f104a832c586e1a731c65514f4cce166d05838b[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;32mnewbranch[m[33m)[m
+Author: Valdemar <valdemar.tunkevic@gmail.com>
+Date:   Fri Jan 17 17:19:52 2020 +0200
+
+    files updated
+
+[33mcommit ce49c744e1abcaaf83eac288ef9655949a3116d9[m
+Author: Valdemar <valdemar.tunkevic@gmail.com>
+Date:   Fri Jan 17 17:17:33 2020 +0200
+
+    removed large file
+
+[33mcommit b34c54f0bac041a225c07d470e1ec2baea87780c[m
+Author: Valdemar <valdemar.tunkevic@gmail.com>
+Date:   Fri Jan 17 17:15:01 2020 +0200
+
+    .gitignore filed added to skip large files
+
+[33mcommit 4d8e00390cb99040e90b333b39f6848ad88519ec[m
+Author: Valdemar <valdemar.tunkevic@gmail.com>
+Date:   Fri Jan 17 17:04:05 2020 +0200
+
+    Sprint 8: Neural Networks
+
+[33mcommit 677b87d8a07acdb8972b706f429b6c836fca08bc[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: Valdemar <valdemar.tunkevic@gmail.com>
+Date:   Thu Jan 9 17:29:53 2020 +0200
+
+    Sprint 7, CV & Xgboost
+
+[33mcommit 069637c45a36d695b28af833dd5336a22766c2cf[m
+Author: Valdemar <valdemar.tunkevic@gmail.com>
+Date:   Tue Jan 7 16:38:26 2020 +0200
+
+    Workshop 6 notes added
+
+[33mcommit f80ea54f55bc87b25c8905ee362ac84d4adfe645[m
+Author: Valdemar <valdemar.tunkevic@gmail.com>
+Date:   Fri Dec 27 17:05:37 2019 +0200
+
+    Lesson 7
+
+[33mcommit f9980fdd4d996433602ae0ead99bf1ec7a35851f[m
+Author: Valdemar <valdemar.tunkevic@gmail.com>
+Date:   Fri Dec 20 16:48:19 2019 +0200
+
+    Lesson 6: Pipelines
+
+[33mcommit cdb3dc4dfea36c6e9901e24c3736ae28c9bed532[m
+Author: Valdemar <valdemar.tunkevic@gmail.com>
+Date:   Thu Dec 12 16:25:53 2019 +0200
+
+    Sprint 5: Fast.ai lesson 5. Random samples, poor model generalization, flaws of train_test_split and cross-validations - random splits, extrapolation problems of RF, checking if test set is random, writing RF from scratch
+
+[33mcommit 9824ff4bb9aa9641f45f0a4f6215f089408cd2a6[m
+Author: Valdemar <valdemar.tunkevic@gmail.com>
+Date:   Tue Dec 10 17:06:07 2019 +0200
+
+    Sprint 5: Kaggle, Fast.ai ML leeson 5, generaliztaions, RF, OOB, Random validation sets, train_test_split and cross-validation flaws
+
+[33mcommit 8e776bf5dcc9d1262a8e7d4337583524bc90c2ea[m
+Author: Valdemar <valdemar.tunkevic@gmail.com>
+Date:   Thu Dec 5 15:17:57 2019 +0200
+
+    Lesson 4: Coursera:clustering, K-means, hierarchical, DBSCAN
+
+[33mcommit f7ba98eeed9ca35a4250f96e72b5906d203ebfee[m
+Author: Valdemar <valdemar.tunkevic@gmail.com>
+Date:   Wed Dec 4 17:08:54 2019 +0200
+
+    Lesson 4: Fast.ai notes
+
+[33mcommit 2909104dcbde08a3500a7b689b41dcb90d9c68fb[m
+Author: Valdemar <valdemar.tunkevic@gmail.com>
+Date:   Tue Dec 3 16:39:52 2019 +0200
+
+    Workshop notes added
+
+[33mcommit 1c0360936f17dcbbdf0b623bd57d9cea5e125c94[m
+Author: ValdemarQ <valdemar.tunkevic@gmail.com>
+Date:   Sat Nov 30 12:16:04 2019 +0200
+
+    Lesson 3: SVM + Files
+
+[33mcommit efd1acfaf9aa6ea994ec21becd4d31b4b08fd100[m
+Author: Valdemar <valdemar.tunkevic@gmail.com>
+Date:   Fri Nov 29 16:48:26 2019 +0200
+
+    Lesson 3: DT, Logistic Regressions, plus examples
+
+[33mcommit d3c09506bfcc12afd8afce2c8da8aad429635a67[m
+Author: Valdemar <valdemar.tunkevic@gmail.com>
+Date:   Thu Nov 28 17:12:06 2019 +0200
+
+    Lesson 3 - Coursera - Clasification - KNN
+
+[33mcommit 010aa257e10eba1088399679f3790c6a64d9f4b4[m
+Author: Valdemar <valdemar.tunkevic@gmail.com>
+Date:   Wed Nov 27 16:53:57 2019 +0200
+
+    Lesson 3 notes: Model confidence, std, feature importance etc..
+
+[33mcommit f9cae4d6d07a8e6b2d3a9585f5917c4deee989b1[m
+Author: Valdemar <valdemar.tunkevic@gmail.com>
+Date:   Tue Nov 26 17:27:22 2019 +0200
+
+    On lesson 3
+
+[33mcommit ed9e9c7a45fe68834e2bb8e2fc1bc84f18df354b[m
+Author: Valdemar <valdemar.tunkevic@gmail.com>
+Date:   Fri Nov 15 16:52:59 2019 +0200
+
+    Lessson 2 - Coursera additions
+
+[33mcommit 778bd0894b66141c57e840b97c3383396c3315e2[m
+Author: Valdemar <valdemar.tunkevic@gmail.com>
+Date:   Thu Nov 14 16:48:13 2019 +0200
+
+    Lesson 2 - Kaggle + courses.Fast.ai
+
+[33mcommit e2d5523a8d1146749d4fd52a686ae4448811f36f[m
+Author: Valdemar <valdemar.tunkevic@gmail.com>
+Date:   Wed Nov 13 15:50:45 2019 +0200
+
+    Sprint 1
+
+[33mcommit f6232cfd04f0f07f6a59893b6b79dfec568f1233[m
+Author: Valdemar Tunkevic <valdemar.tunkevic@gmail.com>
+Date:   Wed Nov 13 15:09:33 2019 +0200
+
+    Initial commit
