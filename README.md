@@ -994,3 +994,132 @@ fit(net, md , epochs=1, crit=loss, opt=opt, metrics=metrics)
 ``opt`` = the optimizer of your choice : here’ we’re using the Adam optimizer with optic.Adam.(net.parameters())
 
 ``metrics`` = the type of metrics you want to print out/ display, here we’re using with [accuracy]
+
+
+## Workshop notes & Questions
+
+Neural network vs Deep neural network?
+* It is the same thing, a neural network. It's called deep usually because it has many layers, but there is no exact threshold on how many layers is deep.
+
+## **Neural networks**
+
+Essentially, neural networks are composed of **layers of** computational units called **neurons**, with **connections in different layers**. These networks transform data until they can classify it as an output. Each neuron multiplies an initial value by some weight, sums results with other values coming into the same neuron, adjusts the resulting number by the neuron’s bias, and then normalizes the output with an activation function.
+![nn2.png](nn2.png)
+
+**Iterative learning process**
+
+A key feature of neural networks is an iterative learning process in which records (rows) are presented to the network one at a time, and the weights associated with the input values are adjusted each time. After all, cases are presented, the process is often repeated. During this learning phase, the network trains by adjusting the weights to predict the correct class label of input samples.
+
+**Advantages of neural networks**:
+* include their high tolerance to noisy data, 
+* ability to classify patterns on which they have not been trained.
+
+
+## **Popular types of NN and their usage**
+
+* **Autoencoders**
+This approach is based on the observation that random initialization is a bad idea and that pre-training each layer with an unsupervised learning algorithm can allow for better initial weights. 
+
+* **Convolutional Neural Networks** ConvNets derive their name from the “convolution” operator. The primary purpose of convolution in the case of a ConvNet is to extract features from the input image. Convolution preserves the spatial relationship between pixels by learning image features using small squares of input data. ConvNets have been successful in such fields as:
+    * Identifing faces
+    * Self-driving cars 
+
+* **Recurrent Neural Networks** RNNs can be trained for sequence generation by processing real data sequences one step at a time and predicting what comes next.
+    * Predictions - example is the Stock Market Prediction
+    * Language-driven image generation etc
+
+
+## Perceptrons
+
+Artificial neuron called a perceptron:
+
+So how do perceptrons work? A perceptron takes several binary inputs, x1,x2,…, and produces a single binary output:
+
+![perceptron](perceptron.png)
+
+A way you can think about the perceptron is that it's a device that makes decisions by weighing up evidence.
+
+**Example:** 
+There's going to be a cheese festival in your city, you like cheese and consider going there. You might make your decision by weighing up three factors:
+
+* Is the weather good?
+* Does your boyfriend or girlfriend want to accompany you?
+* Is the festival near public transit? (You don't own a car).
+
+For instance, we'd have x1=1 if the weather is good, and x1=0 if the weather is bad. Similarly, x2=1 if your boyfriend or girlfriend wants to go, and x2=0 if not. And similarly again for x3 and public transit.
+
+For isntance you love cheese so much, that you could go alone, but weather is an important factor. So model would put more weight on important factors, and less weight on not so important factors.
+
+By varying the weights and the threshold, we can get different models of decision-making.  Source (http://neuralnetworksanddeeplearning.com/chap1.html)
+
+
+## Cons/Disadvantages of Neural Networks?
+1. **Black Box** - meaning that you don’t know how and why your NN came up with a certain output.
+
+2. **Duration of Development** - Although there are libriries, which can help you with many tasks. But when it something non standard, there may be high costs of development due to lack of information on such domain.
+
+3. **Amount of Data** - Neural Networks usually require much more data than traditional Machine Learning algorithms, as in at least thousands if not millions of labeled samples. Although there are some cases where NN’s deal well with little data, most of the time they don’t
+
+4. **Computationally Expensive** - Usually, Neural Networks are also more computationally expensive than traditional algorithms.
+
+5. **Assurance of proper network structure**:  There is no specific rule for determining the structure of artificial neural networks. The appropriate network structure is achieved through experience and trial and error. 
+
+6. **The difficulty of showing the problem to the network:**  ANNs can work with numerical information. Problems have to be translated into numerical values before being introduced to ANN. The display mechanism to be determined here will directly influence the performance of the network. This depends on the user's ability. 
+
+
+- PyTorch    - What is it good for?
+
+- How to train neural networks with GPU for free?
+
+
+
+# [Kaggle - Feature Enginering](https://www.kaggle.com/learn/feature-engineering)
+
+## Baseline model:
+As name indicates Baseline model, is a model without any feature engineering.
+With this baseline model, you'll be able to see how your feature engineering and selection efforts improve the model's performance.
+
+## Categorical Encoding Techniques:
+The most basic encodings are:
+* **one-hot encoding** 
+* **label encoding**
+* **Count Encoding** - Count encoding replaces each categorical value with the number of times it appears in the dataset. For example, if the value "GB" occured 10 times in the country feature, then each "GB" would be replaced with the number 10.
+
+```
+# Create the encoder itself
+count_enc = ce.CountEncoder(cols=cat_features)
+
+# Fit the encoder using the categorical features and target
+count_encoded = count_enc.fit_transform(ks[cat_features])
+
+# Transform the features, rename the columns with _target suffix, and join to dataframe
+data = baseline_data.join(count_encoded.add_suffix("_count"))
+```
+
+* **Target Encoding** - Target encoding replaces a categorical value with the average value of the target for that value of the feature. This technique uses the targets to create new features, so should only be used with training dateset, otherwise data leakage can happen.
+
+```
+# Create the encoder itself
+target_enc = ce.TargetEncoder(cols=cat_features)
+
+# Fit the encoder using the categorical features and target
+target_enc.fit(train[cat_features], train['outcome'])
+
+# Transform the features, rename the columns with _target suffix, and join to dataframe
+train = train.join(target_enc.transform(train[cat_features]).add_suffix('_target'))
+valid = valid.join(target_enc.transform(valid[cat_features]).add_suffix('_target'))
+```
+
+* **CatBoost Encoding** - Finally, we'll look at CatBoost encoding. This is similar to target encoding in that it's based on the target probablity for a given value. However with CatBoost, for each row, the target probability is calculated only from the rows before it.
+```
+# Create the encoder itself
+target_enc = ce.CatBoostEncoder(cols=cat_features)
+
+# Fit the encoder using the categorical features and target
+target_enc.fit(train[cat_features], train['outcome'])
+
+# Transform the features, rename the columns with _target suffix, and join to dataframe
+train = train.join(target_enc.transform(train[cat_features]).add_suffix('_cb'))
+valid = valid.join(target_enc.transform(valid[cat_features]).add_suffix('_cb'))
+
+```
