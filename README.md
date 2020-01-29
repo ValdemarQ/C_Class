@@ -1123,3 +1123,23 @@ train = train.join(target_enc.transform(train[cat_features]).add_suffix('_cb'))
 valid = valid.join(target_enc.transform(valid[cat_features]).add_suffix('_cb'))
 
 ```
+## ML FAST.AI - LESSON 9 — REGULARIZATION, LEARNING RATES AND NLP
+
+- **Parfit** - A package for parallelizing the fit and flexibly scoring of sklearn machine learning models, with visualization routines.  https://github.com/jmcarpenter2/parfit
+
+
+Notes - add
+Worshop notes - add
+
+
+
+
+
+## ML FAST.AI - LESSON 10 — NLP & Columnar data
+
+
+
+
+
+
+## Kaggle.com - Feature Generation/Feature Selection - https://www.kaggle.com/learn/feature-engineering
