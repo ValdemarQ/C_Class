@@ -1135,11 +1135,177 @@ Worshop notes - add
 
 
 
-## ML FAST.AI - LESSON 10 — NLP & Columnar data
+## [ML FAST.AI - LESSON 10 — NLP & Columnar data](http://course18.fast.ai/ml.html)
 
 
 
 
 
 
-## Kaggle.com - Feature Generation/Feature Selection - https://www.kaggle.com/learn/feature-engineering
+
+
+
+## [Kaggle.com - Feature Generation/Feature Selection](https://www.kaggle.com/learn/feature-engineering)
+
+### **Feature Generation**
+**Creating new features** from the raw data is one of the **best ways to improve your model.**
+
+The features you create are different for every dataset, so it takes a bit of creativity and experimentation.
+
+1. Interactions - One of the easiest ways to create new features is by combining categorical variables. For example, if one record has the country ```"CA"``` and category ```"Music"```, you can create a new value ```"CA_Music"```
+In general, you would build interaction features from all pairs of categorical features
+
+It's good to create create a bunch of new features and later choose the best ones with feature selection algorithms.
+
+
+
+It seems quite interesting to combine categorical features into pairs of 2. Possiblei in pairs of 3 or 4, but it may not be as good.
+```
+for col1, col2 in itertools.combinations(cat_features, 2):
+        new_col_name = '_'.join([col1, col2])
+
+        # Convert to strings and combine
+        new_values = clicks[col1].map(str) + "_" + clicks[col2].map(str)
+
+        encoder = preprocessing.LabelEncoder()
+        interactions[new_col_name] = encoder.fit_transform(new_values)
+```
+Way using itertools.combinations to create new columns of 2 connected categorical feature combinations, as feature engineering task.
+
+
+**Tip:** In general, you shouldn't use information from the future. When you're using models like this in a real-world scenario you won't have data from the future
+
+
+Example of using **.rolling**, to build new features, based on some multiple instances of something.
+```
+def count_past_events(series):
+    series = pd.Series(series.index, index=series)
+    # Subtract 1 so the current event isn't counted
+    past_events = series.rolling('6H').count() - 1
+    return past_events
+```
+
+**.diff()** - Calculates the difference of a DataFrame element compared with another element in the DataFrame (default is the element in the same column of the previous row).
+
+```
+def time_diff(series):
+    """ Returns a series with the time since the last timestamp in seconds """
+    return series.diff().dt.total_seconds()
+```
+
+**.expanding()** Provide expanding transformations.
+
+A common alternative to rolling statistics is to use an expanding window, which yields the value of the statistic with all the data available up to that point in time.
+
+These follow a similar interface to .rolling, with the .expanding method returning an Expanding object.
+
+As these calculations are a special case of rolling statistics, they are implemented in pandas such that the following two calls are equivalent:
+
+```
+def previous_attributions(series):
+    sums = series.expanding(min_periods=2).sum() - series
+    return sums
+```
+
+**Tip** Same features would work for either model ML and Neural Nets. However, numerical inputs to neural networks need to be **standardized first**. That is, the features need to be scaled such that they have 0 mean and a standard deviation of 1. This can be done using **sklearn.preprocessing.StandardScaler.**
+
+
+### **Feature Selection**
+
+Often you'll have hundreds or thousands of features after various encodings and feature generation. This can lead to two problems:
+1. The more features you have, the more likely you are to **overfit** to the training and validation sets. This will cause your model to perform worse at generalizing to new data.
+2. the **longer it will take to train** your model and optimize hyperparameters. Also, when building user-facing products, you'll want to make inference as fast as possible. Using fewer features can speed up inference at the cost of predictive performance.
+
+To help with these issues, you'll want to use **feature selection techniques** to keep the most informative features for your model.
+
+
+### **1. Univariate Feature Selection**
+The simplest and fastest methods are based on univariate statistical tests. For each feature, measure how strongly the target depends on the feature using a statistical test like  χ2  or ANOVA. 
+
+From the scikit-learn feature selection module, ``feature_selection.SelectKBest`` returns the K best features given some scoring function.
+
+Univariate feature selection works by selecting the best features based on univariate statistical tests.
+
+**It makes these assumptions based on statistical test before traininig models.**
+
+For regression: f_regression, mutual_info_regression
+
+For classification: chi2, f_classif, mutual_info_classif
+
+
+### **2. L1 regularization**
+
+Univariate methods consider only one feature at a time when making a selection decision. Instead, we can make our selection using all of the features by including them in a linear model with L1 regularization. This type of regularization (sometimes called Lasso) penalizes the absolute magnitude of the coefficients.
+
+
+As the strength of regularization is increased, features which are less important for predicting the target are set to 0. This allows us to perform feature selection by adjusting the regularization parameter. We choose the parameter by finding the best performance on a hold-out set, or decide ahead of time how many features to keep.
+
+**For regression** problems you can use ``sklearn.linear_model.Lasso``, or ``sklearn.linear_model.LogisticRegression`` **for classification**. These can be used along with ``sklearn.feature_selection.SelectFromModel`` **to select the non-zero coefficients**. Otherwise, the code is similar to the univariate tests.
+
+```
+from sklearn.linear_model import LogisticRegression
+from sklearn.feature_selection import SelectFromModel
+
+train, valid, _ = get_data_splits(baseline_data)
+
+X, y = train[train.columns.drop("outcome")], train['outcome']
+
+# Set the regularization parameter C=1
+logistic = LogisticRegression(C=1, penalty="l1", random_state=7).fit(X, y)
+model = SelectFromModel(logistic, prefit=True)
+
+X_new = model.transform(X)
+X_new
+```
+
+
+### Traininig exercices:
+
+**SelectKBest**
+```
+from sklearn.feature_selection import SelectKBest, f_classif
+feature_cols = clicks.columns.drop(['click_time', 'attributed_time', 'is_attributed'])
+train, valid, test = get_data_splits(clicks)
+
+# Create the selector, keeping 40 features
+selector = SelectKBest(f_classif, k=40)
+
+# Use the selector to retrieve the best features
+X_new = selector.fit_transform(train[feature_cols],train['is_attributed']) 
+
+# Get back the kept features as a DataFrame with dropped columns as all 0s
+selected_features = pd.DataFrame(selector.inverse_transform(X_new), 
+                                 index=train.index, 
+                                 columns=feature_cols)
+
+# Find the columns that were dropped
+dropped_columns = selected_features.columns[selected_features.var() == 0]
+
+q_2.check()
+```
+
+**TIP: To find the best value of K**, you can fit multiple models with increasing values of K, then choose the smallest K with validation score above some threshold or some other criteria. A good way to do this is loop over values of K and record the validation scores for each iteration.
+
+
+**L1 Regularization model**
+```
+from sklearn.linear_model import LogisticRegression
+from sklearn.feature_selection import SelectFromModel
+
+def select_features_l1(X, y):
+    """ Return selected features using logistic regression with an L1 penalty """
+    logistic = LogisticRegression(C=0.1, penalty="l1", random_state=7).fit(X, y)
+    model = SelectFromModel(logistic, prefit=True)
+    X_new = model.transform(X)
+    # Get back the kept features as a DataFrame with dropped columns as all 0s
+    selected_features = pd.DataFrame(model.inverse_transform(X_new), 
+                                 index=X.index,
+                                 columns=X.columns)
+
+    # Dropped columns have values of all 0s, keep other columns 
+    selected_columns = selected_features.columns[selected_features.var() != 0]
+
+    return selected_columns
+```
+
+**TIP**: to select a certain number of features with L1 regularization, you need to find the regularization parameter that leaves the desired number of features. To do this you can iterate over models with different regularization parameters from low to high and choose the one that leaves K features. Note that for the scikit-learn models C is the inverse of the regularization strength.
