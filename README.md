@@ -1309,3 +1309,29 @@ def select_features_l1(X, y):
 ```
 
 **TIP**: to select a certain number of features with L1 regularization, you need to find the regularization parameter that leaves the desired number of features. To do this you can iterate over models with different regularization parameters from low to high and choose the one that leaves K features. Note that for the scikit-learn models C is the inverse of the regularization strength.
+
+
+## Workshop 
+
+**TIP** - in general try to tunderstanda the data.
+
+**Agile machine learning**:
+1. Build model with as little understanding as possible
+2. Once you've done this, you will get good insights already
+
+**Feature_importance** - it's always better to use feature importance which seems to be related from a model. Not like a SelectK - statistical feature importance. Which has no relation to model. In machine learninig it may work, but in Deep Learninig when there a lot of bad information, it's not a good choice.
+
+In NN - we don't deal with Feature Importance, they are automatically handled for us.
+
+**Hyperparameters**, basicaly define what model is used, and weights how it's used etc. 
+- The type the regularizaiton function
+- The amount of regularization
+- The type of the model
+- The number of layers in a Neural Network
+
+
+Thing to know:
+* L2 - Always relates to squared things (L2 weights will look like that `[0.1,0.99,0.2,1.8]`)
+* L1 - Always relates to absolute things. L1 weights look like that `[0,1,0,2]`
+
+
