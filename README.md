@@ -1335,3 +1335,88 @@ Thing to know:
 * L1 - Always relates to absolute things. L1 weights look like that `[0,1,0,2]`
 
 
+## [Kaggle - Use cases for model insights](https://www.kaggle.com/dansbecker/use-cases-for-model-insights)
+
+* **Informing Feature Engineering**
+
+Feature engineering is usually the most effective way to improve model accuracy. Feature engineering usually involves repeatedly creating new features using transformations of your raw data or features you have previously created.
+
+Sometimes you can go through this process using nothing but intuition about the underlying topic. But you'll need more direction when you have 100s of raw features or when you lack background knowledge about the topic you are working on.
+
+
+* **Directing Future Data Collection**
+
+You have no control over datasets you download online. But many businesses and organizations using data science have opportunities to expand what types of data they collect. Collecting new types of data can be expensive or inconvenient, so they only want to do this if they know it will be worthwhile. Model-based insights give you a good understanding of the value of features you currently have, which will help you reason about what new values may be most helpful.
+
+
+* **Informing Human Decision-Making**
+
+Some decisions are made automatically by models. Amazon doesn't have humans (or elves) scurry to decide what to show you whenever you go to their website. But many important decisions are made by humans. For these decisions, insights can be more valuable than predictions.
+
+## [Kaggle - Permutation importance](https://www.kaggle.com/dansbecker/permutation-importance)
+
+One of the most basic questions we might ask of a model is: What features have the biggest impact on predictions?
+
+This concept is called **feature importance**.
+
+There are multiple ways to measure feature importance. Some approaches answer subtly different versions of the question above. Other approaches have documented shortcomings.
+
+In this lesson, we'll focus on permutation importance. Compared to most other approaches, permutation importance is:
+
+* fast to calculate,
+* widely used and understood, and
+* consistent with properties we would want a feature importance measure to have.
+
+
+**Permutation importance is calculated after a model has been fitted**. So we won't change the model or change what predictions we'd get for a given value of height, sock-count, etc. The process is as follows:
+
+1. Get a trained model.
+2. Shuffle the values in a single column, make predictions using the resulting dataset. Use these predictions and the true target values to calculate how much the loss function suffered from shuffling. That performance deterioration measures the importance of the variable you just shuffled.
+3. Return the data to the original order (undoing the shuffle from step 2). Now repeat step 2 with the next column in the dataset, until you have calculated the importance of each column.
+
+PermutationImportance with **eli5 library.**
+```
+import eli5
+from eli5.sklearn import PermutationImportance
+
+perm = PermutationImportance(my_model, random_state=1).fit(val_X, val_y)
+eli5.show_weights(perm, feature_names = val_X.columns.tolist())
+```
+![eli5](eli5.png)
+
+The values towards the top are the most important features, and those towards the bottom matter least.
+
+The first number in each row shows how much model performance decreased with a random shuffling (in this case, using "accuracy" as the performance metric).
+
+
+## [Kaggle - Partial Dependence Plots](https://www.kaggle.com/dansbecker/partial-plots)
+
+While feature importance shows what variables most affect predictions, partial dependence plots show how a feature affects predictions.
+
+Like permutation importance, **partial dependence plots are calculated after a model has been fit**. The model is fit on real data that has not been artificially manipulated in any way.
+
+![pdp](pdp.png)
+
+2D partial dependence, shows tht scoring one and runini around 100km delivers probably best peformance.
+
+![2dpdp](2dpdp.jpg)
+
+
+## [Fast.ai - Embeddings](http://course18.fast.ai/lessonsml1/lesson11.html)
+
+- Talked about Naive Bayes + with linear regresion to work with NLP data and how he achieved 92+% in accuracy clasifying IMDB reviews (Positive/Negative).
+
+Used Bag of words, also bags of multiple 2 (bigrams),3 (Trigrams) words and Regularization.
+
+**Embeddings** - when you have sparse inputs its much more efficient, thsi comuptational trick which is mathematical identical to multiplying by one hot encoding matrix is called embeddings. 
+
+Means make a multiplcation by one hot encoded matrix faster by replacing it with a simple array look up.
+
+This allows us to use Neural Nets with high cardinality data, as we don't need to make one hot encoding, just use Embeddings ( Kind of Indexing to our data).
+
+This is fundamentally important for NLP (Neural Language Processing)
+
+
+**TIP** From Jeremy's experience and from some Kaggle competitions, it's better to treat variables as categorical variables, where possible. - When you feed something through embeding, everything can be treated differently. (if you would use continuous, it would make it hard for the model). Thus treating columns as categorical, where possible is good. (Where cardinality is not too high, as if it just one value per one instance and repeats only once, makes no sense to use it.)
+
+**Interestingly** example kaggle competition winners, used: Year, Month, Day, Week, etc as categoricals..
