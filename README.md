@@ -1420,3 +1420,156 @@ This is fundamentally important for NLP (Neural Language Processing)
 **TIP** From Jeremy's experience and from some Kaggle competitions, it's better to treat variables as categorical variables, where possible. - When you feed something through embeding, everything can be treated differently. (if you would use continuous, it would make it hard for the model). Thus treating columns as categorical, where possible is good. (Where cardinality is not too high, as if it just one value per one instance and repeats only once, makes no sense to use it.)
 
 **Interestingly** example kaggle competition winners, used: Year, Month, Day, Week, etc as categoricals..
+
+## Workshop 11 notes:
+
+- When you have relatively small dataset, e.g. 200, how to you validate? Solution is to use **Extreeme Cross Validation (CV).** What is that? That's when you use 1 row for validation and other 199 for traininig in your Cross Validation.
+
+- According to Dovydas Partial Dependence Plot (PDP) and Feature importance (FI) are somewhat siiliar, and later in Deep Learning they will go along together. 
+
+- To be more specific it seems that for PDP the relationship they depict is only valid if the variable of interest does not interact strongly with other model inputs. Whilst FI shows interaction of all features. [Good example](https://blogs.sas.com/content/subconsciousmusings/2018/06/12/interpret-model-predictions-with-partial-dependence-and-individual-conditional-expectation-plots/)
+
+
+### **L1 vs L2 (Regularization) - loss**
+Idea behind regulariztaion is that it tries to minimize weights (Sto model from mmemorizing data) and ensure it generalazies well, by giving weight to important features and not too much to non important.
+
+The key difference between these two is the penalty term.
+### **L1**= MAE(Mean absolute error)
+Punishes only by absolute value. Very large value will make coefficients zero hence it will likely under-fit.
+
+**e.g.** Every single member in L1 is superstar, if new comers join, they are pushed very hardly to achieve thereshold, if they do not achieve it, their weight is set to 0 and they add no importance.
+
+### **L2** = MSQ(Mean squered error)
+Punishes model for wrong answers more strongly than L1, it punishsed by squared value. This technique works very well to avoid over-fitting issue.
+
+**e.g.** Everyone can participate, but uninportant features will get only little weight and add very little, whilst important features will get larget chunk of weight and will add most to the model predictions.
+
+**In most cases you will use L2 regularization, rarely using L1, like in a ration 10:1.**
+
+**The key difference** between these techniques is that L1 shrinks the less important feature’s coefficient to zero thus, removing some feature altogether. So, this works well for feature selection in case we have a huge number of features.
+
+
+### **Catgorial vs Numerical features**
+As Jeremy suggested from some example competitions, sometimes it may be better to turn continuos/numerical values into categorical features for models, and get better results. 
+- Month, Week, Day, weekday etc may be easy
+- For person weight, you may want to use **Bucketization technique**.
+There is no right or wrong, but if person weights 75.5 you may want to put him into buckets of size 70-80, 81-90 etc.. Rather than having 75.5 as one category and 75.3 as another.
+- Sometimes once you created a buckets you may want to remove original data from which you derived it, for kind of colinearity,correlation etc..
+
+**Always test your hypothezes**, and see if they are indeed delivering better results, such as turninig numbers to categories, or turninig continuos into buckets. etc.
+
+
+### NLP
+From practice it has been seen that it's quite good to use already pretrained NLP models for your problems, by just tweaking paratmeters etc for your problem
+
+## [Survivorship bias](https://towardsdatascience.com/survivorship-bias-in-data-science-and-machine-learning-4581419b3bca)
+
+Basically idea is following. 50% returned from battle field. After plotting all data where returned planes were shot, dots ar visible in the chart. Initial idea was to reinforce those areas to achieve better results. However, as it turned our these are 50% who returned, so apparently it coulb be that those who did not return, were shut into those areas which are not highlighed. 
+
+It's also similar with data, it may be important to see the data of those who did not return too, as they may be a more important and predictive points, than those who returned, the data that we have. [Good example](https://towardsdatascience.com/survivorship-bias-in-data-science-and-machine-learning-4581419b3bca)
+![Survivors](survivors.png)
+
+
+## Model ensembling
+Using multiple models to make predictions.
+* Predict with multiple models and average out pridctions
+* Give different weights to different models and get predictions (Based on intuition)
+
+
+# Lesson 12  [Kaggle - SHAP Values](https://www.kaggle.com/dansbecker/shap-values)
+
+SHAP Values (an acronym from SHapley Additive exPlanations) break down a prediction to show the impact of each feature. Where could you use this?
+
+* A model says a bank shouldn't loan someone money, and the bank is legally required to explain the basis for each loan rejection
+* A healthcare provider wants to identify what factors are driving each patient's risk of some disease so they can directly address those risk factors with targeted health interventions
+
+
+**Nice simple function from Kaggle for Shap:**
+```
+row_to_show = 5
+data_for_prediction = val_X.iloc[row_to_show]  # use 1 row of data here. Could use multiple rows if desired
+
+import shap  # package used to calculate Shap values
+
+# Create object that can calculate shap values
+explainer = shap.TreeExplainer(my_model)
+
+# Calculate Shap values
+shap_values = explainer.shap_values(data_for_prediction)
+
+#plots
+shap.initjs()
+shap.force_plot(explainer.expected_value[1], shap_values[1], data_for_prediction)
+```
+
+
+```
+import shap  # package used to calculate Shap values
+
+sample_data_for_prediction = val_X.iloc[0].astype(float)  # to test function
+
+def patient_risk_factors(model, patient_data):
+    # Create object that can calculate shap values
+    explainer = shap.TreeExplainer(model)
+    shap_values = explainer.shap_values(patient_data)
+    shap.initjs()
+    return shap.force_plot(explainer.expected_value[1], shap_values[1], patient_data)
+```
+
+Shap values show how much a given feature changed our prediction (compared to if we made that prediction at some baseline value of that feature). 
+
+![shap](shap.png)
+
+In addition to this nice breakdown for each prediction, the Shap library offers great visualizations of groups of Shap values. We will focus on two of these visualizations. These visualizations have conceptual similarities to permutation importance and partial dependence plots.
+
+## SHAP Summary plot
+
+
+SHAP summary plots give us a birds-eye view of feature importance and what is driving it. We'll walk through an example plot for the soccer data: 
+
+![shapplot](shapplot.png)
+
+This plot is made of many dots. Each dot has three characteristics:
+
+Vertical location shows what feature it is depicting
+Color shows whether that feature was high or low for that row of the dataset
+Horizontal location shows whether the effect of that value caused a higher or lower prediction.
+```
+import shap  # package used to calculate Shap values
+
+# Create object that can calculate shap values
+explainer = shap.TreeExplainer(my_model)
+
+# calculate shap values. This is what we will plot.
+# Calculate shap_values for all of val_X rather than a single row, to have more data for plot.
+shap_values = explainer.shap_values(val_X)
+
+# Make plot. Index of [1] is explained in text below.
+shap.summary_plot(shap_values[1], val_X)
+```
+
+ The code isn't too complex. But there are a few caveats.
+When plotting, we call shap_values[1]. For classification problems, there is a separate array of SHAP values for each possible outcome. In this case, we index in to get the SHAP values for the prediction of "True".
+Calculating SHAP values can be slow. It isn't a problem here, because this dataset is small. But you'll want to be careful when running these to plot with reasonably sized datasets. The exception is when using an xgboost model, which SHAP has some optimizations for and which is thus much faster.
+
+
+## SHAP Dependence Contribution Plots
+We've previously used Partial Dependence Plots to show how a single feature impacts predictions. These are insightful and relevant for many real-world use cases. Plus, with a little effort, they can be explained to a non-technical audience.
+
+But there's a lot they don't show. For instance, what is the distribution of effects? Is the effect of having a certain value pretty constant, or does it vary a lot depending on the values of other feaures. SHAP dependence contribution plots provide a similar insight to PDP's, but they add a lot more detail.
+
+![shapdep](shapdep.png)
+
+```
+
+import shap  # package used to calculate Shap values
+
+# Create object that can calculate shap values
+explainer = shap.TreeExplainer(my_model)
+
+# calculate shap values. This is what we will plot.
+shap_values = explainer.shap_values(X)
+
+# make plot.
+shap.dependence_plot('Ball Possession %', shap_values[1], X, interaction_index="Goal Scored")
+```
