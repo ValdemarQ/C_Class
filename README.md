@@ -1573,3 +1573,29 @@ shap_values = explainer.shap_values(X)
 # make plot.
 shap.dependence_plot('Ball Possession %', shap_values[1], X, interaction_index="Goal Scored")
 ```
+
+
+## [Fast.ai - Machine Learning 1: Lesson 12](#)
+
+**Feature Engineering idea** - Durations feature, if there are some events in the data like holidays, you could make features like time until next holiday etc...
+
+Python ``zip()`` important fuction to know, as it will be indeed helpful in your data science.
+
+``.rolling(timesteps, min_periods=1)`` - moving average, and then you can kind of apply any function further .sum() .mean() etc...
+
+**Pandas are very good at timestamps/timeseries,** and there are plenty of premade **API** things, thus recommended to refer to those docs, rather then manually write strange loops.
+
+
+**Pytorch** epects all continuous,numerical values should be ``float``.
+
+Data for neural networks (NN/DL) **must be normalized**.
+
+**In NLP number** of dimensionality/size for your embeddings is found to be empirically the best of around 600. (When they are smaller than 600 they don't perform to weell)
+
+Basically your problem domain may determine how big size of embiddings is the most effective for your problem. Basically experimenting is required. 
+
+Rule of thumb, how many discrete values are there, and thus make half of those descrete values to be your ebmeddings size, but dont go more than 50. (Just tips and recommendations)
+
+Embedding - computational shortcut to onehot encoding.
+![emb](embedding.png)
+
